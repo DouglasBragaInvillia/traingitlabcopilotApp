@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: '3.10'
 
     - name: Install dependencies
       run: |
@@ -27,5 +27,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: traingitlabcopilotApp
-        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        publish-profile: ${{secrets.AZURE_PUBLISH_PROFILE}}
         package: .
