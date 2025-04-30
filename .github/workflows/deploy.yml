@@ -24,6 +24,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
+    - name: Create necessary directories
+      run: |
+        mkdir -p static/images
+        mkdir -p templates
+        echo "Creating placeholder files"
+        touch static/images/travel-illustration.png
+        touch static/images/travel-empty.png
+
     - name: Debug environment
       run: |
         echo "Current directory contents:"
@@ -31,9 +39,12 @@ jobs:
         echo "Python version:"
         python --version
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
+    - name: Deploy to Azure Web App using FTPS
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
       with:
-        app-name: traingitlabcopilotApp
-        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        package: .
+        server: waws-prod-cq1-043.ftp.azurewebsites.windows.net
+        username: traingitlabcopilotApp\$traingitlabcopilotApp
+        password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftps
+        local-dir: ./
+        server-dir: site/wwwroot/
